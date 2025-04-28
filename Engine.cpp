@@ -1,8 +1,13 @@
-#include "Engine.h"
+О╩©#include "Engine.h"
 #include "World.h"
 #include "Input.h"
+#include "Renderer.h"
 
-UEngine::UEngine() // : World(nullptr)
+
+UEngine* UEngine::Instance = nullptr;
+
+
+UEngine::UEngine() //: World(nullptr)
 {
 	World = nullptr;
 	InputDevice = nullptr;
@@ -13,10 +18,12 @@ UEngine::~UEngine()
 	Terminate();
 }
 
-void UEngine::Initialize()
+void UEngine::Initiailze(std::string filename)
 {
 	InputDevice = new UInput();
 	World = new UWorld();
+	World->Load(filename);
+	URenderer::GetInstance();
 }
 
 void UEngine::Run()
@@ -36,6 +43,7 @@ void UEngine::Terminate()
 		delete World;
 		World = nullptr;
 	}
+
 	if (InputDevice)
 	{
 		delete InputDevice;
@@ -46,8 +54,8 @@ void UEngine::Terminate()
 void UEngine::Input()
 {
 	InputDevice->Tick();
-	//Engine has a InputDevice
-	//е╟╨╦╣Е, ╦╤©Л╫╨, а╤юл╫╨ф╫, емд║, юзюл╥н ╪╬╫╨, ╦╤юле╘
+	//Engine has a Input
+	//е╟О©╫О©╫О©╫О©╫, О©╫О©╫О©╫Л╫╨, О©╫О©╫О©╫л╫О©╫ф╫, О©╫О©╫д║, О©╫О©╫О©╫л╥О©╫ О©╫О©╫О©╫О©╫
 }
 
 void UEngine::Tick()

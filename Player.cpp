@@ -4,8 +4,14 @@
 APlayer::APlayer()
 {
 	Shape = 'P';
-	Location.X = 1;
-	Location.Y = 1;
+	RenderOrder = 7;
+}
+
+APlayer::APlayer(const FVector2D& InVector)
+{
+	Shape = 'P';
+	Location = InVector;
+	RenderOrder = 7;
 }
 
 APlayer::~APlayer()
@@ -18,14 +24,14 @@ void APlayer::Tick()
 	{
 	case 'w':
 		AddActorWorldOffset(FVector2D(0, -1));
-			break;
+		break;
 	case 's':
 		AddActorWorldOffset(FVector2D(0, 1));
 		break;
 	case 'a':
 		AddActorWorldOffset(FVector2D(-1, 0));
 		break;
-	case'd':
+	case 'd':
 		AddActorWorldOffset(FVector2D(1, 0));
 		break;
 	}

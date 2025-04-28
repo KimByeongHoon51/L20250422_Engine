@@ -1,15 +1,32 @@
 #pragma once
+#include <string>
 
 class UWorld;
 class UInput;
 
+
+
 class UEngine
 {
-public:
+private:
 	UEngine();
+	static UEngine* Instance;
+
+public:
+
+	static UEngine* GetInstance()
+	{
+		if (!Instance)
+		{
+			Instance = new UEngine();
+		}
+
+		return Instance;
+	}
+
 	virtual ~UEngine();
 
-	void Initialize();
+	void Initiailze(std::string filename = "level01.map");
 	void Run();
 	void Terminate();
 
@@ -23,3 +40,5 @@ private:
 
 };
 
+
+#define	GEngine		UEngine::GetInstance()
