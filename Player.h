@@ -1,5 +1,7 @@
 #pragma once
 #include "Actor.h"
+class UPaperFilpbookComponent;
+
 class APlayer : public AActor
 {
 public:
@@ -8,4 +10,7 @@ public:
 	virtual	~APlayer();
 
 	virtual void Tick() override;
+
+	class UPaperFlipbookComponent* Flipbook;
+
 };

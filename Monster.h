@@ -8,4 +8,6 @@ public:
 	AMonster();
 	AMonster(const FVector2D& InVector);
 	virtual ~AMonster();
+
+	class UPaperFlipbookComponent* Flipbook;
 };

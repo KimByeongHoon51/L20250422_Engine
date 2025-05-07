@@ -3,18 +3,18 @@
 
 #include "Actor.h"
 #include "Renderer.h"
+#include "SDL3/SDL.h"
+#include "Component.h"
+#include "SceneComponent.h"
 
 
 AActor::AActor()
 {
-	Shape = ' ';
 }
 
 AActor::AActor(const FVector2D& InVector)
 {
-	Location = InVector;
-	//Location.X = InVector.X;
-	//Location.Y = InVector.Y;
+
 }
 
 AActor::~AActor()
@@ -33,16 +33,20 @@ void AActor::Tick()
 
 void AActor::Render()
 {
-	//COORD Position = { static_cast<SHORT>(Location.X), (SHORT)Location.Y };
+	for (auto Component : PropertyList)
+	{
+		USceneComponent* SceneComponent = dynamic_cast<USceneComponent*>(Component);
+		if (Component)
+		{
+			SceneComponent->Render();
+		}
+	}
 
-	//SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), Position);
-
-	//std::cout << Shape;
-
-	URenderer::GetInstance()->Render(Location, Shape);
 }
 
-bool AActor::CompareByRendeOrder(const AActor* A, const AActor* B)
+UComponent* AActor::CreateDefaultSubobject(UComponent* NewComponent)
 {
-	return (A->RenderOrder) > (B->RenderOrder);
+	NewComponent->Owner = this;
+	PropertyList.push_back(NewComponent);
+	return NewComponent;
 }

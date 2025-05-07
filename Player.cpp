@@ -1,17 +1,38 @@
 #include "Player.h"
 #include "Input.h"
+#include "Engine.h"
+#include "SDL3/SDL.h"
+
+#include "PaperFlipbookComponent.h"
 
 APlayer::APlayer()
 {
-	Shape = 'P';
-	RenderOrder = 7;
+	Flipbook = (UPaperFlipbookComponent*)CreateDefaultSubobject(new UPaperFlipbookComponent());
+
+	Flipbook->Shape = 'P';
+	Flipbook->RenderOrder = 7;
+	Flipbook->Color = { 255, 0, 0, 0 };
+	Flipbook->ColorKey = { 255, 0, 255, 255 };
+
+	Flipbook->Filename = "player.bmp";
+	Flipbook->IsSprite = true;
+
+	Flipbook->Load();
 }
 
 APlayer::APlayer(const FVector2D& InVector)
 {
-	Shape = 'P';
 	Location = InVector;
-	RenderOrder = 7;
+
+	Flipbook = (UPaperFlipbookComponent*)CreateDefaultSubobject(new UPaperFlipbookComponent());
+
+	Flipbook->Shape = 'P';
+	Flipbook->RenderOrder = 7;
+	Flipbook->Color = { 255, 0, 0, 0 };
+	Flipbook->ColorKey = { 255, 0, 255, 255 };
+	Flipbook->Filename = "player.bmp";
+	Flipbook->IsSprite = true;
+	Flipbook->Load();
 }
 
 APlayer::~APlayer()
@@ -20,19 +41,26 @@ APlayer::~APlayer()
 
 void APlayer::Tick()
 {
-	switch (UInput::KeyCode)
+	if (GEngine->Event.type == SDL_EVENT_KEY_DOWN)
 	{
-	case 'w':
-		AddActorWorldOffset(FVector2D(0, -1));
-		break;
-	case 's':
-		AddActorWorldOffset(FVector2D(0, 1));
-		break;
-	case 'a':
-		AddActorWorldOffset(FVector2D(-1, 0));
-		break;
-	case 'd':
-		AddActorWorldOffset(FVector2D(1, 0));
-		break;
+		switch (GEngine->Event.key.key)
+		{
+		case SDLK_W:
+		case SDLK_UP:
+			AddActorWorldOffset(FVector2D(0, -1));
+			break;
+		case SDLK_S:
+		case SDLK_DOWN:
+			AddActorWorldOffset(FVector2D(0, 1));
+			break;
+		case SDLK_A:
+		case SDLK_LEFT:
+			AddActorWorldOffset(FVector2D(-1, 0));
+			break;
+		case SDLK_D:
+		case SDLK_RIGHT:
+			AddActorWorldOffset(FVector2D(1, 0));
+			break;
+		}
 	}
 }

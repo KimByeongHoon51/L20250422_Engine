@@ -11,21 +11,10 @@
 #include "Goal.h"
 #include "Monster.h"
 #include "Renderer.h"
+#include "SceneComponent.h"
 
 UWorld::UWorld()
 {
-	//SpawnActor(new APlayer());
-	//SpawnActor(new AWall());
-
-	//AWall* NewWall = new AWall();
-	//NewWall->Location.X = 1;
-	//NewWall->Location.Y = 0;
-	//SpawnActor(NewWall);
-
-	//NewWall = new AWall();
-	//NewWall->Location.X = 2;
-	//NewWall->Location.Y = 0;
-	//SpawnActor(NewWall);
 }
 
 UWorld::~UWorld()
@@ -106,8 +95,35 @@ void UWorld::Load(std::string filename)
 		//std::sort(Actors.begin(), Actors.end(), 
 		//	ActorCompareByRenderOrder{});
 	std::sort(Actors.begin(), Actors.end(), [](const AActor* A, const AActor* B) {
-		return (A->RenderOrder) > (B->RenderOrder);
+
+		USceneComponent* ASceneComponent = nullptr;
+		for (auto AComponent : A->PropertyList)
+		{
+			USceneComponent* SceneComponent = dynamic_cast<USceneComponent*>(AComponent);
+			if (AComponent)
+			{
+				ASceneComponent = SceneComponent;
+			}
+		}
+
+		USceneComponent* BSceneComponent = nullptr;
+		for (auto BComponent : B->PropertyList)
+		{
+			USceneComponent* SceneComponent = dynamic_cast<USceneComponent*>(BComponent);
+			if (BComponent)
+			{
+				BSceneComponent = SceneComponent;
+			}
+		}
+
+		if (!ASceneComponent || !BSceneComponent)
+		{
+			return false;
+		}
+
+		return (ASceneComponent->RenderOrder) > (BSceneComponent->RenderOrder);
 		});
+
 
 }
 

@@ -9,4 +9,6 @@ public:
 	AFloor(const FVector2D& InVector);
 	virtual ~AFloor();
 
+	class UPaperFlipbookComponent* Flipbook;
+
 };

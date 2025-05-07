@@ -1,8 +1,12 @@
 #pragma once
 #include <string>
+#include "SDL3/SDL.h"
+
+#pragma comment(lib, "SDL3")
 
 class UWorld;
 class UInput;
+class UTimer;
 
 
 
@@ -30,6 +34,12 @@ public:
 	void Run();
 	void Terminate();
 
+	SDL_Window* Window;
+	SDL_Event Event;
+
+	static float GetWorldDeltaSeconds();
+
+
 private:
 	void Input();
 	void Tick();
@@ -37,6 +47,9 @@ private:
 
 	UWorld* World;
 	UInput* InputDevice;
+	bool	IsRunning;
+
+	UTimer* Timer;
 
 };
 
